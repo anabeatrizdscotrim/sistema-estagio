@@ -39,7 +39,7 @@ export const summary = {
         subTasks: [
           {
             title: "Task manager youtube tutorial",
-            date: "2024-02-09T00:00:00.000Z",
+            date: "2025-01-09T00:00:00.000Z",
             tag: "tutorial",
             _id: "65c5f153b5204a81bde866c8",
           },
@@ -51,7 +51,7 @@ export const summary = {
       {
         _id: "65c5d547660756f6fd453a7a",
         title: "Duplicate - Duplicate - Review Code Changes",
-        date: "2024-02-09T00:00:00.000Z",
+        date: "2025-01-09T00:00:00.000Z",
         priority: "medium",
         stage: "in progress",
         assets: [],
@@ -109,8 +109,8 @@ export const summary = {
       },
       {
         _id: "65c46026af6ec0118be9407a",
-        title: "Website Project Proposal Review",
-        date: "2024-02-07T00:00:00.000Z",
+        title: "Trocar Óleo",
+        date: "2025-01-28T00:00:00.000Z",
         priority: "high",
         stage: "todo",
         assets: [

@@ -12,6 +12,10 @@ import { Link, useLocation } from "react-router-dom";
 import { setOpenSidebar } from "../redux/slices/authSlice";
 import clsx from "clsx";
 import { GiCheckMark } from "react-icons/gi";
+import { RiFileList2Line } from "react-icons/ri";
+import { ImTarget } from "react-icons/im";
+import { LuTrash2 } from "react-icons/lu";
+
 
 const linkData = [
   {
@@ -22,7 +26,7 @@ const linkData = [
   {
     label: "Tarefas",
     link: "tasks",
-    icon: <FaTasks />,
+    icon: <RiFileList2Line />,
   },
   {
     label: "Finalizado",
@@ -37,7 +41,7 @@ const linkData = [
   {
     label: "Para Fazer",
     link: "todo/todo",
-    icon: <MdOutlinePendingActions />,
+    icon: <ImTarget />,
   },
   {
     label: "Time",
@@ -47,7 +51,7 @@ const linkData = [
   {
     label: "Lixo",
     link: "trashed",
-    icon: <FaTrashAlt />,
+    icon: <LuTrash2 />,
   },
 ];
 
@@ -71,7 +75,7 @@ const Sidebar = () => {
         to={el.link}
         onClick={closeSidebar}
         className={clsx(
-          "w-full lg:w-3/4 flex gap-2 px-3 py-2 rounded-full items-center text-gray-800 text-base hover:bg-[#2564ed2d]",
+          "w-full lg:w-3/4 flex gap-2 px-3 py-2 rounded-full items-center text-gray-800 text-base hover:bg-[#dfedfe]",
           path === el.link.split("/")[0] ? "bg-blue-400 text-neutral-100" : ""
         )}
       >

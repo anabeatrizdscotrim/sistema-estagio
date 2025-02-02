@@ -36,7 +36,7 @@ const Login = () => {
 
             <p className='flex flex-col gap-0 md:gap-4 text-4xl md:text-6xl 2xl:text-7xl font-black text-center text-black-700'>
               <span>Cloud-Based</span>
-              <span className='text-blue-700'>Donezo</span>
+              <span className='text-blue-400'>Donezo</span>
             </p>
 
             {/*<div className='cell'>
@@ -86,14 +86,14 @@ const Login = () => {
                 error={errors.password ? errors.password.message : ""}
               />
 
-              <span className='text-sm text-gray-500 hover:text-blue-600 hover:underline cursor-pointer'>
+              <span className='text-sm text-gray-500 hover:text-blue-400 hover:underline cursor-pointer'>
                 Esqueceu a senha?
               </span>
 
               <Button
                 type='submit'
                 label='Enviar'
-                className='w-full h-10 bg-blue-700 text-white rounded-full'
+                className='w-full h-10 bg-blue-400 text-white rounded-full'
               />
             </div>
           </form>

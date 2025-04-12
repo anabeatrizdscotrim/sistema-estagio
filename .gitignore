@@ -1,3 +1,28 @@
+# Node
+node_modules/
+.env
+.env.local
+npm-debug.log
+yarn-error.log
+dist/
+
+# Vite / React
+.vite
+*.log
+
+# Build output
+build/
+coverage/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs e editores
+.vscode/
+.idea/
+*.swp
+
 # Logs
 logs
 *.log
@@ -22,3 +47,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+/node_modules
+.env

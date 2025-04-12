@@ -26,6 +26,7 @@ const AddTask = ({ open, setOpen }) => {
   const [priority, setPriority] = useState(
     task?.priority?.toUpperCase() || PRIORIRY[2]
   );
+  
   const [assets, setAssets] = useState([]);
   const [uploading, setUploading] = useState(false);
 

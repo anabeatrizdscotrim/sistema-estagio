@@ -1,6 +1,7 @@
 import User from '../models/user.js';
 import createJWT from "../utils/index.js";
 import Notice from "../models/notification.js"
+import jwt from "jsonwebtoken";
 
 export const registerUser = async (req, res) => {
     try {
@@ -49,42 +50,51 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
     try {  
-        const {email, password} = req.body;
-        const user = await User.findOne({ email });
-
-        if(!user){
-           return res
-            .status(401)
-            .json({ status: false, message: "Invalid email or password."});     
-        }
-
-        if(!user?.isActive){
-            return res.status(401).json({
-                status: false,
-                message: 
-                    "User account has been deactivated, contact the administrator",
-            });
-        }
-
-        const isMatch = await user.matchPassword(password);
-
-        if (user && isMatch){
-            createJWT(res, user._id);
-
-            user.password = undefined;
-
-            res.status(200).json(user);
-        } else {
-            return res
-                .status(401)
-                .json({ status: false, message: "Invalid email or password "});
-
-        }
+      const { email, password } = req.body;
+      const user = await User.findOne({ email });
+  
+      if (!user) {
+        return res.status(401).json({ status: false, message: "Invalid email or password." });
+      }
+  
+      if (!user?.isActive) {
+        return res.status(401).json({
+          status: false,
+          message: "User account has been deactivated, contact the administrator",
+        });
+      }
+  
+      const isMatch = await user.matchPassword(password);
+  
+      if (user && isMatch) {
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+          expiresIn: "1d",
+        });
+  
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== "development",
+          sameSite: "strict",
+          maxAge: 1 * 24 * 60 * 60 * 1000,
+        });
+  
+        user.password = undefined;
+  
+        return res.status(200).json({
+          status: true,
+          message: "Login realizado com sucesso!",
+          token,
+          user,
+        });
+      } else {
+        return res.status(401).json({ status: false, message: "Invalid email or password" });
+      }
     } catch (error) {
-        console.log(error);
-        return res.status(400).json({ status: false, message: error.message});
+      console.log(error);
+      return res.status(400).json({ status: false, message: error.message });
     }
-};
+  };
+  
 
 export const logoutUser = async (req, res) => {
    try {

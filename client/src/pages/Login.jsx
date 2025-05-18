@@ -3,7 +3,12 @@ import {useForm} from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 import Textbox from "../components/Textbox";
 import Button from "../components/Button";
+import Loading from "../components/Loader"
 import { useSelector } from "react-redux";
+import { useLoginMutation } from "../redux/slices/api/authApiSlice";
+import { toast } from "sonner";
+import { setCredentials } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const { user } = useSelector((state) => state.auth);
@@ -14,9 +19,23 @@ const Login = () => {
   } = useForm();
   
   const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch(); 
+
 
   const submitHandler = async (data)=> {
-    console.log("submit"); 'submit'
+    try {
+      const result = await login(data).unwrap();
+
+      dispatch(setCredentials(result.user));
+      navigate("/")
+
+      console.log(result);
+      
+    } catch (error) {
+      console.log(error)
+      toast.error(error?.data?.message || error.message);
+    }
   };
 
   useEffect(() => {
@@ -31,12 +50,12 @@ const Login = () => {
           <div className="w-full md:max-w-lg 2xl:max-w-3xl flex flex-col items-center justify-center gap-5 md:gap-y-10 2xl:-mt-20">
             
             <span className='flex gap-1 py-1 px-3 border rounded-full text-sm md:text-base bordergray-300 text-gray-600'>
-              Gerencie suas tarefas em um só lugar!
+              Todas as tarefas em um só lugar!
             </span>
 
             <p className='flex flex-col gap-0 md:gap-4 text-4xl md:text-6xl 2xl:text-7xl font-black text-center text-black-700'>
-              <span>Cloud-Based</span>
-              <span className='text-blue-400'>Donezo</span>
+              <span>IBIMOTOS</span>
+              <span className='text-blue-400'>FlowFix</span>
             </p>
 
             {/*<div className='cell'>
@@ -90,11 +109,15 @@ const Login = () => {
                 Esqueceu a senha?
               </span>
 
+            {isLoading ? (
+              <Loading />
+            ) : (
               <Button
                 type='submit'
                 label='Enviar'
                 className='w-full h-10 bg-blue-400 text-white rounded-full'
               />
+            )}
             </div>
           </form>
         </div>

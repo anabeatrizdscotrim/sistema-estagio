@@ -93,9 +93,8 @@ export const loginUser = async (req, res) => {
       console.log(error);
       return res.status(400).json({ status: false, message: error.message });
     }
-  };
+};
   
-
 export const logoutUser = async (req, res) => {
    try {
     res.cookie("token", "", {
@@ -159,17 +158,17 @@ export const updateUserProfile = async (req, res) => {
         user.title = req.body.title || user.title;
         user.role = req.body.role || user.role;
 
-        const updatedUser = await User.save();
+        const updatedUser = await user.save();
 
         user.password = undefined;
 
         res.status(201).json({
             status: true,
-            message: "Profile Updated Successfully.",
+            message: "Perfil atualizado com sucesso.",
             user: updatedUser,
         });
     } else {
-        res.status(404).json({ status: false, message: "User not found" });
+        res.status(404).json({ status: false, message: "Usuário não encontrado." });
     }
   } catch (error) {
      console.log(error);

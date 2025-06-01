@@ -205,7 +205,6 @@ export const dashboardStatistics = async (req, res) => {
     }
 };
 
-
 export const getTasks = async (req, res) => {
    try {
     const {stage, isTrashed} = req.query;
@@ -259,7 +258,6 @@ export const getTask = async (req, res) => {
     }
 };
 
-
 export const createSubTask = async (req, res) => {
 
     try {
@@ -286,7 +284,6 @@ export const createSubTask = async (req, res) => {
       return res.status(400).json({ status: false, message: error.message });
     }
 };
-
 
 export const updateTask = async (req, res) => {
    try {
@@ -364,7 +361,6 @@ export const deleteRestoreTask = async (req, res) => {
         return res.status(400).json({ status: false, message: error.message });
     }
 };
-
 
 // export const createTask = async (req, res) => {
 //    try {

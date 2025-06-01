@@ -24,7 +24,6 @@ const TASK_TYPE = {
   completed: "bg-green-400",
 };
 
-
 const Tasks = () => {
   const params = useParams();
 

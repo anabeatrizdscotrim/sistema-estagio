@@ -5,6 +5,9 @@ import { BiSolidMessageRounded } from "react-icons/bi";
 import { HiBellAlert } from "react-icons/hi2";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useGetNotificationsQuery } from "../redux/slices/api/userApiSlice";
+import { useMarkNotiAsReadMutation } from "../redux/slices/api/userApiSlice";
+import ViewNotification from "./ViewNotification";
 
 const data = [
   {
@@ -43,10 +46,10 @@ const data = [
 ];
 const ICONS = {
   alerta: (
-    <HiBellAlert className='h-5 w-5 text-gray-600 group-hover:text-blue-400' />
+    <HiBellAlert className='h-5 w-5 text-gray-600 group-hover:text-blue-300' />
   ),
   message: (
-    <BiSolidMessageRounded className='h-5 w-5 text-gray-600 group-hover:text-blue-400' />
+    <BiSolidMessageRounded className='h-5 w-5 text-gray-600 group-hover:text-blue-300' />
   ),
 };
 
@@ -54,11 +57,19 @@ const NotificationPanel = () => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
 
-  //  const { data, refetch } = useGetNotificationsQuery();
-  //  const [markAsRead] = useMarkNotiAsReadMutation();
+  const { data, refetch } = useGetNotificationsQuery();
+  const [markAsRead] = useMarkNotiAsReadMutation();
 
-  const readHandler = () => {};
-  const viewHandler = () => {};
+  const readHandler = async(type, id) => {
+    await markAsRead({type, id}).unwrap();
+    refetch();
+  };
+
+  const viewHandler = async(el) => {
+   setSelected(el)
+   readHandler("one", el._id)
+   setOpen(true);
+  };
 
   const callsToAction = [
     { name: "Cancelar", href: "#", icon: "" },
@@ -77,7 +88,7 @@ const NotificationPanel = () => {
           <div className='w-8 h-8 flex items-center justify-center text-gray-800 relative'>
             <IoIosNotificationsOutline className='text-2xl' />
             {data?.length > 0 && (
-              <span className='absolute text-center top-0 right-1 text-sm text-white font-semibold w-4 h-4 rounded-full bg-red-500'>
+              <span className='absolute text-center top-0 right-1 text-sm text-white font-semibold w-4 h-4 rounded-full bg-red-400'>
                 {data?.length}
               </span>
             )}
@@ -132,7 +143,7 @@ const NotificationPanel = () => {
                         onClick={
                           item?.onClick ? () => item.onClick() : () => close()
                         }
-                        className='flex items-center justify-center gap-x-2.5 p-3 font-semibold text-blue-400 hover:bg-gray-100'
+                        className='flex items-center justify-center gap-x-2.5 p-3 font-semibold text-blue-300 hover:bg-gray-100'
                       >
                         {item.name}
                       </Link>
@@ -144,6 +155,8 @@ const NotificationPanel = () => {
           </Popover.Panel>
         </Transition>
       </Popover>
+
+      <ViewNotification open={open} setOpen={setOpen} el={selected} />
     </>
   );
 };

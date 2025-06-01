@@ -8,7 +8,8 @@ import { getInitials } from "../utils";
 import { toast } from "sonner";
 import { useLogoutMutation } from "../redux/slices/api/authApiSlice";
 import { logout } from "../redux/slices/authSlice";
-
+import AddUser from "./AddUser";
+import ChangePassword from "./ChangePassword";
 
 const UserAvatar = () => {
   const [open, setOpen] = useState(false);
@@ -26,7 +27,7 @@ const UserAvatar = () => {
 
       navigate("/log-in");
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Algo deu errado");
     }
   };
 
@@ -35,7 +36,7 @@ const UserAvatar = () => {
       <div>
         <Menu as='div' className='relative inline-block text-left'>
           <div>
-            <Menu.Button className='w-10 h-10 2xl:w-12 2xl:h-12 items-center justify-center rounded-full bg-blue-400'>
+            <Menu.Button className='w-10 h-10 2xl:w-12 2xl:h-12 items-center justify-center rounded-full bg-blue-300'>
               <span className='text-white font-semibold'>
               {getInitials(user?.name || "")}
               </span>
@@ -81,7 +82,7 @@ const UserAvatar = () => {
                   {({ active }) => (
                     <button
                       onClick={logoutHandler}
-                      className={`text-red-600 group flex w-full items-center rounded-md px-2 py-2 text-base`}
+                      className={`text-red-400 group flex w-full items-center rounded-md px-2 py-2 text-base`}
                     >
                       <IoLogOutOutline className='mr-2' aria-hidden='true' />
                       Logout
@@ -93,6 +94,8 @@ const UserAvatar = () => {
           </Transition>
         </Menu>
       </div>
+      <AddUser open={open} setOpen={setOpen} userData={user} />
+      <ChangePassword open={openPassword} setOpen={setOpenPassword} />
     </>
   );
 };

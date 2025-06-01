@@ -1,18 +1,18 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector } from "react-redux";
 import ModalWrapper from "./ModalWrapper";
 import { Dialog } from "@headlessui/react";
 import Textbox from "./Textbox";
 import Loading from "./Loader";
 import Button from "./Button";
+import { useRegisterMutation } from "../redux/slices/api/authApiSlice";
+import { toast } from "sonner";
+import { useUpdateUserMutation } from "../redux/slices/api/userApiSlice";
 
 const AddUser = ({ open, setOpen, userData }) => {
   let defaultValues = userData ?? {};
   const { user } = useSelector((state) => state.auth);
-
-  const isLoading = false,
-    isUpdating = false;
 
   const {
     register,
@@ -20,7 +20,37 @@ const AddUser = ({ open, setOpen, userData }) => {
     formState: { errors },
   } = useForm({ defaultValues });
 
-  const handleOnSubmit = () => {};
+  const dispatch = useDispatch();
+
+  const [addNewUser, {isLoading}] = useRegisterMutation();
+  const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
+  
+  const handleOnSubmit = async (data) => {
+    try {
+      if(userData){ 
+        const result = await updateUser(data).unwrap();
+
+        toast.success("Perfil atualizado com sucesso")
+
+        if(userData?._id === user?._id){
+          dispatch(setCredencials({...result.user}))
+        }
+      } else {
+        await addNewUser({
+          ...data, 
+          password: data.email,
+        }).unwrap();
+
+        toast.success("Usuário adicionado com sucesso");
+      }
+
+      setTimeout(() => {
+        setOpen(false);
+      },1500);
+    } catch (error) {
+      toast.error("Algo deu errado")
+    }
+  };
 
   return (
     <>
@@ -30,51 +60,51 @@ const AddUser = ({ open, setOpen, userData }) => {
             as='h2'
             className='text-base font-bold leading-6 text-gray-900 mb-4'
           >
-            {userData ? "UPDATE PROFILE" : "ADD NEW USER"}
+            {userData ? "ATUALIZAR PERFIL" : "ADICIONAR USUÁRIO"}
           </Dialog.Title>
           <div className='mt-2 flex flex-col gap-6'>
             <Textbox
-              placeholder='Full name'
+              placeholder='Nome Completo'
               type='text'
               name='name'
-              label='Full Name'
+              label='Nome Completo'
               className='w-full rounded'
               register={register("name", {
-                required: "Full name is required!",
+                required: "O nome completo é obrigatório!",
               })}
               error={errors.name ? errors.name.message : ""}
             />
             <Textbox
-              placeholder='Title'
+              placeholder='Título'
               type='text'
               name='title'
-              label='Title'
+              label='Título'
               className='w-full rounded'
               register={register("title", {
-                required: "Title is required!",
+                required: "O título é obrigatório!",
               })}
               error={errors.title ? errors.title.message : ""}
             />
             <Textbox
-              placeholder='Email Address'
+              placeholder='Email'
               type='email'
               name='email'
-              label='Email Address'
+              label='Email'
               className='w-full rounded'
               register={register("email", {
-                required: "Email Address is required!",
+                required: "O email do usuário é obrigatório!",
               })}
               error={errors.email ? errors.email.message : ""}
             />
 
             <Textbox
-              placeholder='Role'
+              placeholder='Papel'
               type='text'
               name='role'
-              label='Role'
+              label='Papel'
               className='w-full rounded'
               register={register("role", {
-                required: "User role is required!",
+                required: "O papel do usuário é obrigatório!",
               })}
               error={errors.role ? errors.role.message : ""}
             />
@@ -88,15 +118,15 @@ const AddUser = ({ open, setOpen, userData }) => {
             <div className='py-3 mt-4 sm:flex sm:flex-row-reverse'>
               <Button
                 type='submit'
-                className='bg-blue-600 px-8 text-sm font-semibold text-white hover:bg-blue-700  sm:w-auto'
-                label='Submit'
+                className='rounded-lg border border-gray-300 bg-white px-5 py-2 text-sm font-medium text-gray-900 shadow-sm transition hover:bg-gray-50'
+                label='Confirmar'
               />
 
               <Button
                 type='button'
-                className='bg-white px-5 text-sm font-semibold text-gray-900 sm:w-auto'
+                className='bg-white px-5 text-sm font-semibold text-red-400 hover:text-red-300 sm:w-auto transition-colors duration-200'
                 onClick={() => setOpen(false)}
-                label='Cancel'
+                label='Cancelar'
               />
             </div>
           )}

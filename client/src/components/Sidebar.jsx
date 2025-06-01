@@ -75,19 +75,19 @@ const Sidebar = () => {
         to={el.link}
         onClick={closeSidebar}
         className={clsx(
-          "w-full lg:w-3/4 flex gap-2 px-3 py-2 rounded-full items-center text-gray-800 text-base hover:bg-[#dfedfe]",
-          path === el.link.split("/")[0] ? "bg-blue-400 text-neutral-100" : ""
+          "w-full lg:w-3/4 flex gap-2 px-3 py-2 rounded-full items-center text-gray-900 text-base hover:bg-[#e3e4e4]",
+          path === el.link.split("/")[0] ? "bg-black text-neutral-100" : ""
         )}
       >
         {el.icon}
-        <span className='hover:text-[#60a5fa]'>{el.label}</span>
+        <span className='hover:text-[#2c3744]'>{el.label}</span>
       </Link>
     );
   };
   return (
     <div className='w-full  h-full flex flex-col gap-6 p-5'>
       <h1 className='flex gap-1 items-center'>
-        <p className='bg-blue-400 p-2 rounded-full'>
+        <p className='bg-blue-300 p-2 rounded-full'>
           <GiCheckMark className='text-white text-2xl font-black' />
         </p>
         <span className='text-2xl font-bold text-black'>FlowFix</span>

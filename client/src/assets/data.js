@@ -14,7 +14,7 @@ export const summary = {
       team: [
         {
           _id: "65c202d4aa62f32ffd1303cc",
-          name: "Codewave Asante",
+          name: "Ana Beatriz",
           title: "Administrator",
           role: "Admin",
           email: "admin@gmail.com",
@@ -38,7 +38,7 @@ export const summary = {
       activities: [],
       subTasks: [
         {
-          title: "Task manager youtube tutorial",
+          title: "Teste",
           date: "2024-02-09T00:00:00.000Z",
           tag: "tutorial",
           _id: "65c5f153b5204a81bde866c8",

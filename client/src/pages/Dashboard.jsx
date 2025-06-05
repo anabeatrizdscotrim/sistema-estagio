@@ -7,18 +7,19 @@ import {
 } from "react-icons/md";
 
 import moment from "moment";
-import { summary } from "../assets/data";
 import { BsFillClipboard2CheckFill } from "react-icons/bs";
 import { BsClockFill } from "react-icons/bs";
 import { ImTarget } from "react-icons/im";
 import { RiFileList2Fill } from "react-icons/ri";
 import clsx from 'clsx';
-import { Chart } from "../components/Chart";
 import { BGS, PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
+import { useGetDashboardStatsQuery } from '../redux/slices/api/taskApiSlice';
+import { Chart } from "../components/Chart";
+import Loading from "../components/Loader"; 
 import UserInfo from "../components/UserInfo";
 
-
 const TaskTable = ({ tasks }) => {
+
   const ICONS = {
     high: <MdKeyboardDoubleArrowUp />,
     medium: <MdKeyboardArrowUp />,
@@ -153,13 +154,24 @@ const UserTable = ({ users }) => {
 
 const Dashboard = () => {
 
-  const totals = summary.tasks;
+  const {data, isLoading} = useGetDashboardStatsQuery();
+
+  console.log(data);
+
+  if(isLoading)
+    return(
+      <div className='py-10'>
+        <Loading />
+      </div>
+    );
+
+  const totals = data?.tasks || [];
 
   const stats = [
     {
       _id: "1",
       label: "TOTAL DE TAREFAS",
-      total: summary?.totalTasks || 0,
+      total: data?.totalTasks || 0,
       icon: <RiFileList2Fill />,
       bg: "bg-[#60a5fa]",
     },
@@ -219,13 +231,13 @@ const Dashboard = () => {
         <h4 className='text-xl text-gray-700 font-semibold'>
           Gráfico de Prioridade
         </h4>
-        <Chart />
+        <Chart data={data?.graphData} />
       </div>
 
       <div className='w-full flex flex-col md:flex-row gap-4 2xl:gap-10 py-8'>
-        <TaskTable tasks={summary.last10Task} />
+        <TaskTable tasks={data?.last10Task} />
 
-        <UserTable users={summary.users} />
+        <UserTable users={data?.users} />
       </div>
     </div>
   ); 

@@ -30,7 +30,7 @@ const AddUser = ({ open, setOpen, userData }) => {
       if(userData){ 
         const result = await updateUser(data).unwrap();
 
-        toast.success("Perfil atualizado com sucesso")
+        toast.success("Perfil atualizado com sucesso");
 
         if(userData?._id === user?._id){
           dispatch(setCredencials({...result.user}))

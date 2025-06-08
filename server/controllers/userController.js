@@ -241,8 +241,8 @@ export const activateUserProfile = async (req, res) => {
     
         res.status(201).json({
           status: true,
-          message: `User account has been ${
-            user?.isActive ? "activated" : "disabled"
+          message: `O usuário foi ${
+            user?.isActive ? "ativado" : "desativado"
           }`,
         });
     } else {
@@ -262,7 +262,7 @@ export const deleteUserProfile = async (req, res) => {
 
     res
         .status(200)
-        .json({status: true, message: "User deleted successfully"});     
+        .json({status: true, message: "Usuário deletado com sucesso!"});     
    } catch (error) {
         console.log(error);
         return res.status(400).json({ status: false, message: error.message });
